@@ -18,9 +18,18 @@ ament_target_dependencies(
   "custom_msg"
   "my_library"
 )
+
 add_executable(test_readMotorsPositions src/test_readMotorsPositions.cpp)
 ament_target_dependencies(
   test_readMotorsPositions
+  "rclcpp"
+  "custom_msg"
+  "my_library"
+)
+
+add_executable(test_moveFingerMotor src/test_moveFingerMotor.cpp)
+ament_target_dependencies(
+  test_moveFingerMotor
   "rclcpp"
   "custom_msg"
   "my_library"
@@ -30,6 +39,7 @@ ament_target_dependencies(
 install(TARGETS 
       test_moveMotors
       test_readMotorsPositions
+      test_moveFingerMotor
       DESTINATION 
         lib/${PROJECT_NAME})
 

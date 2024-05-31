@@ -23,6 +23,20 @@ This repository contains the source code and tests for the robot hand control de
     cd /path/to/your/ros2/workspace
     colcon build --packages-select uclv_robot_hand_controller
     ```
+## Additional Dependencies
+
+This project requires additional dependencies from other repositories. Clone the following repositories into your ROS 2 workspace:
+
+1. Custom Message Definitions:
+   ```bash
+    cd /path/to/your/ros2/workspace/src
+    git clone https://github.com/robertochello/custom_msg.git
+    ```
+2. Custom Library:
+    ```bash
+    cd /path/to/your/ros2/workspace/src
+    git clone https://github.com/robertochello/my_library.git
+    ```
 
 ## Usage
 
