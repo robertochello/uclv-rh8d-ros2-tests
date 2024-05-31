@@ -1,7 +1,7 @@
 # UCLV Robot Hand Controller ROS 2
 
 
-This repository contains some tests, in ROS2 and C++, for controlling the RH8D robotic hand from Seed Robotics. Developed at the Università degli Studi della Campania Luigi Vanvitelli.
+This repository contains some tests, in ROS2 and C++, for controlling the RH8D robotic hand by Seed Robotics. Developed at the Università degli Studi della Campania Luigi Vanvitelli.
 
 ## Dependencies
 
