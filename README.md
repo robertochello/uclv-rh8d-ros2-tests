@@ -45,16 +45,26 @@ This project requires additional dependencies from other repositories. Clone the
 
 This test node (`test_moveMotors`) is designed to test the functionality of moving motors in the robotic hand.
 
+1. Run test node:
 ```bash
     ros2 run uclv_robot_hand_controller test_moveMotors
 ```
+1. Open another terminal and use `ros2 topic pub` to publish a message on the topic `/cmd/motor_position`. For example:
+   ```bash
+    ros2 topic pub /cmd/motor_position custom_msg/msg/Position "{ids: [36, 37], positions: [1000, 1000]}"
+   ```
 
 #### Read Motors Positions Test
 
 This test node (`test_readMotorsPositions`) is designed to test reading the positions of motors in the robotic hand.
+1. Run test node:
 ```bash
     ros2 run uclv_robot_hand_controller test_readMotorsPositions
 ```
+1. Open another terminal and use `ros2 topic echo` to see what is published on the `/motor_state` topic. For example:
+   ```bash
+    ros2 topic echo /motor_state
+   ```
 
 ## License
 
