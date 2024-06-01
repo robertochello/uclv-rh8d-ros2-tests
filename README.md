@@ -1,22 +1,23 @@
+<!-- omit in toc -->
 # UCLV Robot Hand Controller ROS 2
 
 
 This repository contains some tests, in ROS2 and C++, for controlling the RH8D robotic hand by Seed Robotics. Developed at the Università degli Studi della Campania Luigi Vanvitelli.
 
+<!-- omit in toc -->
 ## Summary
 
-- [UCLV Robot Hand Controller ROS 2](#uclv-robot-hand-controller-ros-2)
-  - [Summary](#summary)
-  - [Installation](#installation)
-  - [Dependencies](#dependencies)
-  - [Additional Dependencies](#additional-dependencies)
-      - [Read Motors Positions Test](#read-motors-positions-test)
-      - [Move Finger Motor Test](#move-finger-motor-test)
-      - [Move Wrist Motor Test](#move-wrist-motor-test)
-      - [Read Finger Motor Positions Test](#read-finger-motor-positions-test)
-      - [Read Wrist Motor Positions Test](#read-wrist-motor-positions-test)
-  - [License](#license)
-  - [Authors](#authors)
+
+- [Installation](#installation)
+- [Dependencies](#dependencies)
+- [Additional Dependencies](#additional-dependencies)
+    - [Read Motors Positions Test](#read-motors-positions-test)
+    - [Move Finger Motor Test](#move-finger-motor-test)
+    - [Move Wrist Motor Test](#move-wrist-motor-test)
+    - [Read Finger Motor Positions Test](#read-finger-motor-positions-test)
+    - [Read Wrist Motor Positions Test](#read-wrist-motor-positions-test)
+- [License](#license)
+- [Authors](#authors)
 
 ## Installation
 
