@@ -11,6 +11,8 @@ This repository contains some tests, in ROS2 and C++, for controlling the RH8D r
 - [Installation](#installation)
 - [Dependencies](#dependencies)
 - [Additional Dependencies](#additional-dependencies)
+- [Usage](#usage)
+- [Test Nodes](#test-nodes)
     - [Read Motors Positions Test](#read-motors-positions-test)
     - [Move Finger Motor Test](#move-finger-motor-test)
     - [Move Wrist Motor Test](#move-wrist-motor-test)
