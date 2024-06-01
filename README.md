@@ -68,7 +68,7 @@ This test node (`test_readMotorsPositions`) is designed to test reading the posi
 
 #### Move Finger Motor Test
 
-This test node (`test_moveFingerMotor`) is designed to test the functionality of moving a singler finger motor.
+This test node (`test_moveFingerMotor`) is designed to test the functionality of moving a single wrist motor.
 1. Run test node:
 ```bash
     ros2 run uclv_robot_hand_controller test_moveFingerMotor
@@ -81,7 +81,7 @@ This test node (`test_moveFingerMotor`) is designed to test the functionality of
 
 #### Move Wrist Motor Test
 
-This test node (`test_moveWristMotor`) is designed to test the functionality of moving a singler finger motor.
+This test node (`test_moveWristMotor`) is designed to test the functionality of moving a single wrist motor.
 1. Run test node:
 ```bash
     ros2 run uclv_robot_hand_controller test_moveWristMotor
@@ -91,6 +91,29 @@ This test node (`test_moveWristMotor`) is designed to test the functionality of 
     ros2 topic pub /cmd/motor_position custom_msg/msg/Position "{ids: [31], positions: [1000]}"
    ```
 
+#### Read Finger Motor Positions Test
+
+This test node (`test_readFingerMotorPosition`) is designed to test reading the positions of a single finger motor.
+1. Run test node:
+```bash
+    ros2 run uclv_robot_hand_controller test_readFingerMotorPosition
+```
+2. Open another terminal and use `ros2 topic echo` to see what is published on the `/motor_state` topic. For example:
+   ```bash
+    ros2 topic echo /motor_state
+   ```
+
+#### Read Wrist Motor Positions Test
+
+This test node (`test_readWristMotorPosition`) is designed to test reading the positions of a single wrist motor.
+1. Run test node:
+```bash
+    ros2 run uclv_robot_hand_controller test_readWristMotorPosition
+```
+2. Open another terminal and use `ros2 topic echo` to see what is published on the `/motor_state` topic. For example:
+   ```bash
+    ros2 topic echo /motor_state
+   ```
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
