@@ -18,10 +18,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       
-    # Build Docker image
-    - name: Build Docker image
-      run: docker build -t my-ros2-env -f Dockerfile .
+    # Pull Docker image from Docker Hub
+    - name: Pull Docker image
+      run: docker pull robertochello/my-ros2-env:latest
     
     # Run Docker container with ROS 2 environment
     - name: Run Docker container
-      run: docker run --rm -v $PWD:/workspace -w /workspace my-ros2-env bash -c "source /opt/ros/humble/setup.bash && colcon build --packages-select uclv_rh8d_ros2_tests"
+      run: docker run --rm -v $PWD:/workspace -w /workspace robertochello/my-ros2-env bash -c "source /opt/ros/humble/setup.bash && colcon build --packages-select uclv_rh8d_ros2_tests"
