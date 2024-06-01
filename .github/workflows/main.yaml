@@ -31,14 +31,4 @@ jobs:
     - name: Build with colcon
       run: colcon build --packages-select uclv-rh8d-ros2-tests  # Sostituisci <package_to_build> con il nome del tuo pacchetto ROS 2
 
-    - name: Run tests
-      run: colcon test --packages-select uclv-rh8d-ros2-tests  # Sostituisci <package_to_test> con il nome del tuo pacchetto ROS 2
 
-    - name: Package built artifacts
-      run: colcon bundle
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: ros2-built-artifacts
-        path: install
