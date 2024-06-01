@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# UCLV Robot Hand Controller ROS 2
+# UCLV RH8D ROS 2 Tests
 
 
 This repository contains some tests, in ROS2 and C++, for controlling the RH8D robotic hand by Seed Robotics. Developed at the Università degli Studi della Campania Luigi Vanvitelli.
