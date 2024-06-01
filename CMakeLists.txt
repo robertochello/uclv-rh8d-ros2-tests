@@ -43,12 +43,30 @@ ament_target_dependencies(
   "my_library"
 )
 
+add_executable(test_readFingerMotorPosition src/test_readFingerMotorPosition.cpp)
+ament_target_dependencies(
+  test_readFingerMotorPosition
+  "rclcpp"
+  "custom_msg"
+  "my_library"
+)
+
+add_executable(test_readWristMotorPosition src/test_readWristMotorPosition.cpp)
+ament_target_dependencies(
+  test_readWristMotorPosition
+  "rclcpp"
+  "custom_msg"
+  "my_library"
+)
+
 
 install(TARGETS 
       test_moveMotors
       test_readMotorsPositions
       test_moveFingerMotor
       test_moveWristMotor
+      test_readFingerMotorPosition
+      test_readWristMotorPosition
       DESTINATION 
         lib/${PROJECT_NAME})
 
