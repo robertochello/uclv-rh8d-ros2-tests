@@ -1,0 +1,44 @@
+name: ROS 2 Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup ROS
+      uses: ros-tooling/setup-ros@v1
+      with:
+        ros-distro: humble  # Specifica la versione di ROS 2 da utilizzare
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update && rosdep update
+        rosdep install --from-paths src --ignore-src --rosdistro eloquent -y
+
+    - name: Build with colcon
+      run: colcon build --packages-select uclv-rh8d-ros2-tests  # Sostituisci <package_to_build> con il nome del tuo pacchetto ROS 2
+
+    - name: Run tests
+      run: colcon test --packages-select uclv-rh8d-ros2-tests  # Sostituisci <package_to_test> con il nome del tuo pacchetto ROS 2
+
+    - name: Package built artifacts
+      run: colcon bundle
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ros2-built-artifacts
+        path: install
