@@ -10,7 +10,7 @@
 
 
 
-class TestMoveFingerMotor : public rclcpp::Node
+class TestMoveWristMotor : public rclcpp::Node
 {
 public:
 
@@ -25,8 +25,8 @@ public:
     rclcpp::Subscription<custom_msg::msg::Position>::SharedPtr subscription_;
 
 
-    TestMoveFingerMotor()
-    : Node("test_move_finger_motor")
+    TestMoveWristMotor()
+    : Node("test_move_wrist_motor")
     {
         hand_ = std::make_shared<Hand>(serial_port_, baudrate_, protocol_version_);
         hand_->setSerialPortLowLatency(serial_port_);
@@ -36,14 +36,14 @@ public:
         
         subscription_ = this->create_subscription<custom_msg::msg::Position>(
                 "/cmd/motor_position", 1,
-                std::bind(&TestMoveFingerMotor::topic_callback, this, std::placeholders::_1)
+                std::bind(&TestMoveWristMotor::topic_callback, this, std::placeholders::_1)
             );
     }
 
 private:
     void topic_callback(const custom_msg::msg::Position::SharedPtr pos) {
         try {
-            hand_->moveFingerMotor(pos->ids[0], pos->positions[0]);
+            hand_->moveWristMotor(pos->ids[0], pos->positions[0]);
         }
         catch(...) {
             RCLCPP_INFO_STREAM_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "ERROR");
@@ -56,7 +56,7 @@ int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
     try {
-        auto hand_driver_node = std::make_shared<TestMoveFingerMotor>();
+        auto hand_driver_node = std::make_shared<TestMoveWristMotor>();
         rclcpp::spin(hand_driver_node);
     } catch (const std::exception &e) {
         RCLCPP_FATAL(rclcpp::get_logger("rclcpp"), "Exception caught: %s", e.what());
