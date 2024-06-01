@@ -25,10 +25,10 @@ jobs:
         install-connext: true    # Installa il middleware Connext
         required-ros-distributions: "humble"  # Specifica le distribuzioni ROS 2 richieste
 
- #   - name: Install dependencies
- #     run: |
- #       sudo apt-get update && rosdep update
- #       rosdep install --from-paths src --ignore-src --rosdistro eloquent -y
+    - name: Install dependencies
+      run: |
+        sudo apt-get update && rosdep update
+        rosdep install --from-paths src --ignore-src --rosdistro humble -y
 
     - name: Build with colcon
       run: colcon build --packages-select uclv_rh8d_ros2_tests  # Sostituisci <package_to_build> con il nome del tuo pacchetto ROS 2
