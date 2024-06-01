@@ -3,8 +3,8 @@
 <package format="3">
   <name>uclv_rh8d_ros2_tests</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="roberto.chello@studenti.unicampania.it">robertochello</maintainer>
+  <description>This package include some tests for RH8D.</description>
+  <maintainer email="roberto.chello@studenti.unicampania.it">Roberto Chello</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
