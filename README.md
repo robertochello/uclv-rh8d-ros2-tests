@@ -43,7 +43,7 @@ This project requires additional dependencies from other repositories. Clone the
 
 #### Move Motors Test
 
-This test node (`test_moveMotors`) is designed to test the functionality of moving motors in the robotic hand.
+This test node (`test_moveMotors`) is designed to test the functionality of moving motors.
 
 1. Run test node:
 ```bash
@@ -56,7 +56,7 @@ This test node (`test_moveMotors`) is designed to test the functionality of movi
 
 #### Read Motors Positions Test
 
-This test node (`test_readMotorsPositions`) is designed to test reading the positions of motors in the robotic hand.
+This test node (`test_readMotorsPositions`) is designed to test reading the positions of motors.
 1. Run test node:
 ```bash
     ros2 run uclv_robot_hand_controller test_readMotorsPositions
@@ -64,6 +64,31 @@ This test node (`test_readMotorsPositions`) is designed to test reading the posi
 2. Open another terminal and use `ros2 topic echo` to see what is published on the `/motor_state` topic. For example:
    ```bash
     ros2 topic echo /motor_state
+   ```
+
+#### Move Finger Motor Test
+
+This test node (`test_moveFingerMotor`) is designed to test the functionality of moving a singler finger motor.
+1. Run test node:
+```bash
+    ros2 run uclv_robot_hand_controller test_moveFingerMotor
+```
+2. Open another terminal and use `ros2 topic pub` to publish a message on the topic `/cmd/motor_position`. For example:
+   ```bash
+    ros2 topic pub /cmd/motor_position custom_msg/msg/Position "{ids: [36], positions: [1000]}"
+   ```
+
+
+#### Move Wrist Motor Test
+
+This test node (`test_moveWristMotor`) is designed to test the functionality of moving a singler finger motor.
+1. Run test node:
+```bash
+    ros2 run uclv_robot_hand_controller test_moveWristMotor
+```
+2. Open another terminal and use `ros2 topic pub` to publish a message on the topic `/cmd/motor_position`. For example:
+   ```bash
+    ros2 topic pub /cmd/motor_position custom_msg/msg/Position "{ids: [31], positions: [1000]}"
    ```
 
 ## License
