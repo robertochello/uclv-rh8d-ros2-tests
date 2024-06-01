@@ -3,12 +3,20 @@
 
 This repository contains some tests, in ROS2 and C++, for controlling the RH8D robotic hand by Seed Robotics. Developed at the Università degli Studi della Campania Luigi Vanvitelli.
 
-## Dependencies
+## Summary
 
-- [ROS 2](https://index.ros.org/doc/ros2/) - Robot Operating System 2
-- `rclcpp` - ROS 2 C++ Client Library
-- `custom_msg` - Custom ROS 2 Message package
-- `my_library` - External library for robotic hand control
+- [UCLV Robot Hand Controller ROS 2](#uclv-robot-hand-controller-ros-2)
+  - [Summary](#summary)
+  - [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [Additional Dependencies](#additional-dependencies)
+      - [Read Motors Positions Test](#read-motors-positions-test)
+      - [Move Finger Motor Test](#move-finger-motor-test)
+      - [Move Wrist Motor Test](#move-wrist-motor-test)
+      - [Read Finger Motor Positions Test](#read-finger-motor-positions-test)
+      - [Read Wrist Motor Positions Test](#read-wrist-motor-positions-test)
+  - [License](#license)
+  - [Authors](#authors)
 
 ## Installation
 
@@ -22,9 +30,17 @@ This repository contains some tests, in ROS2 and C++, for controlling the RH8D r
     cd /path/to/your/ros2/workspace
     colcon build --packages-select uclv_robot_hand_controller
     ```
+## Dependencies
+
+- [ROS 2](https://index.ros.org/doc/ros2/) - Robot Operating System 2
+- `rclcpp` - ROS 2 C++ Client Library
+
+
 ## Additional Dependencies
 
 This project requires additional dependencies from other repositories. Clone the following repositories into your ROS 2 workspace:
+- `custom_msg` - Custom ROS 2 Message package
+- `my_library` - External library for robotic hand control
 
 1. Custom Message Definitions:
    ```bash
