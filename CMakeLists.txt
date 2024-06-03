@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(my_library REQUIRED)
 find_package(custom_msg REQUIRED)
+find_package(serial REQUIRED)
 
 add_executable(test_moveMotors src/test_moveMotors.cpp)
 ament_target_dependencies(
@@ -59,6 +60,15 @@ ament_target_dependencies(
   "my_library"
 )
 
+add_executable(test_readFromSensors src/test_readFromSensors.cpp)
+ament_target_dependencies(
+  test_readFromSensors
+  "rclcpp"
+  "custom_msg"
+  "my_library"
+  "serial"
+)
+
 
 install(TARGETS 
       test_moveMotors
@@ -67,6 +77,7 @@ install(TARGETS
       test_moveWristMotor
       test_readFingerMotorPosition
       test_readWristMotorPosition
+      test_readFromSensors
       DESTINATION 
         lib/${PROJECT_NAME})
 
