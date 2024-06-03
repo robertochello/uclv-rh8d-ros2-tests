@@ -43,6 +43,17 @@ public:
 private:
     void topic_callback(const custom_msg::msg::Position::SharedPtr pos) {
         try {
+            
+            for (size_t i = 0; i < pos->ids.size(); i++)
+            {
+                if (pos->ids[i] > 30 && pos->ids[i] < 34) {
+                    hand_->addWristMotor(pos->ids[i]);
+                }
+                if (pos->ids[i] > 33 && pos->ids[i] < 39) {
+                    hand_->addFingerMotor(pos->ids[i]);
+                }
+            }
+            
             hand_->moveMotors(pos->ids, pos->positions);
         }
         catch(...) {

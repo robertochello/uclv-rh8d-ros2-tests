@@ -43,12 +43,13 @@ public:
 private:
     void topic_callback(const custom_msg::msg::Position::SharedPtr pos) {
         try {
+            hand_->addFingerMotor(pos->ids[0]); // should not be here, it's only for test moveFingerMotor
             hand_->moveFingerMotor(pos->ids[0], pos->positions[0]);
         }
         catch(...) {
             RCLCPP_INFO_STREAM_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "ERROR");
             return;
-        }        
+        }
     }
 };
 

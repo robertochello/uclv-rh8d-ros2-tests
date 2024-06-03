@@ -43,6 +43,7 @@ public:
 private:
     void topic_callback(const custom_msg::msg::Position::SharedPtr pos) {
         try {
+            hand_->addWristMotor(pos->ids[0]); // should not be here, it's only for test moveWristrMotor
             hand_->moveWristMotor(pos->ids[0], pos->positions[0]);
         }
         catch(...) {

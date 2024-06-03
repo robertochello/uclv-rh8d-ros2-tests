@@ -21,6 +21,8 @@ public:
     std::string serial_port_ = "/dev/ttyUSB0";
     int baudrate_ = 1000000;
     float protocol_version_ = 2.0;
+    int millisecondsTimer_ = 2;
+    std::vector<int64_t> motor_ids_ {31, 32, 33, 34, 35, 36, 37, 38};
 
     rclcpp::Publisher<custom_msg::msg::Position>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
@@ -40,6 +42,15 @@ public:
             std::chrono::milliseconds(millisecondsTimer_),
             std::bind(&TestReadMotorsPositions::publish_state, this)
         );
+
+        for (size_t i = 0; i <  motor_ids_.size(); i++) {
+        if ( motor_ids_[i] > 30 &&  motor_ids_[i] < 34) {
+            hand_->addWristMotor( motor_ids_[i]);
+        }
+        if ( motor_ids_[i] > 33 &&  motor_ids_[i] < 39) {
+            hand_->addFingerMotor( motor_ids_[i]);
+        }
+    }
     }
 
 private:

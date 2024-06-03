@@ -21,12 +21,14 @@ public:
     std::string serial_port_ = "/dev/ttyUSB0";
     int baudrate_ = 1000000;
     float protocol_version_ = 2.0;
+    int millisecondsTimer_ = 2;
+    std::vector<int64_t> motor_ids_ {34};
 
     rclcpp::Publisher<custom_msg::msg::Position>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
 
     TestReadFingerMotorPosition()
-    : Node("test_read_finger_motor_position_node")
+    : Node("test_read_finger_motor_positions_node")
     {
         hand_ = std::make_shared<Hand>(serial_port_, baudrate_, protocol_version_);
         hand_->setSerialPortLowLatency(serial_port_);
@@ -40,6 +42,15 @@ public:
             std::chrono::milliseconds(millisecondsTimer_),
             std::bind(&TestReadFingerMotorPosition::publish_state, this)
         );
+
+        for (size_t i = 0; i <  motor_ids_.size(); i++) {
+        if ( motor_ids_[i] > 30 &&  motor_ids_[i] < 34) {
+            hand_->addWristMotor( motor_ids_[i]);
+        }
+        if ( motor_ids_[i] > 33 &&  motor_ids_[i] < 39) {
+            hand_->addFingerMotor( motor_ids_[i]);
+        }
+    }
     }
 
 private:
@@ -54,7 +65,7 @@ void publish_state()
 
         std::vector<uint32_t> motor_pos;
         try{
-            motor_pos[0] = hand_->readFingerMotorPosition(motor_ids_uint8t_vec[0]);
+            motor_pos = hand_->readMotorsPositions(motor_ids_uint8t_vec);
         }
         catch(...)
         {
