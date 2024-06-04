@@ -44,16 +44,22 @@ This repository contains some tests, in ROS2 and C++, for controlling the RH8D r
 This project requires additional dependencies from other repositories. Clone the following repositories into your ROS 2 workspace:
 - `custom_msg` - Custom ROS 2 Message package
 - `my_library` - External library for robotic hand control
+- `serial` - External library for reading from serial port
 
-1. Custom Message Definitions:
+1. ROS 2 Message package:
    ```bash
     cd /path/to/your/ros2/workspace/src
     git clone https://github.com/robertochello/custom_msg.git
     ```
-2. Custom Library:
+2. External library for robotic hand control:
     ```bash
     cd /path/to/your/ros2/workspace/src
     git clone https://github.com/robertochello/my_library.git
+    ```
+3. External library for reading from serial port:
+    ```bash
+    cd /path/to/your/ros2/workspace/src
+    git clone https://github.com/robertochello/serial-ros2.git
     ```
 
 ## Usage
