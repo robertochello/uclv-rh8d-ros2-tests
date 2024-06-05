@@ -14,30 +14,49 @@
 class Sensor {
     public:
         int id_;
-        int fx_;
-        int fy_;
-        int fz_;
+        std::string fx_;
+        std::string fy_;
+        std::string fz_;
 
-        Sensor(int id, int fx, int fy, int fz)
+        Sensor(int id, std::string fx, std::string fy, std::string fz)
             : id_(id) ,fx_(fx), fy_(fy), fz_(fz) {}
+        Sensor () 
+            : id_(0),
+            fx_(""),
+            fy_(""),
+            fz_("") {}
+
+        void update (int id, std::string fx, std::string fy, std::string fz) {
+            this->id_;
+            this->fx_;
+            this->fy_;
+            this->fz_;
+        }
     private:
 };
+
 
 
 class TestReadFromSensors : public rclcpp::Node
 {
 public:
-    
-    std::shared_ptr<serial::Serial> sensor_read_;
+
+    rclcpp::Time time;
 
     std::string serial_port_ = "/dev/ttyUSB1";
     int baudrate_ = 1000000;
     uint32_t serial_timeout_ = 1000;
     float protocol_version_ = 2.0;
 
-    std::string set_epoch_command;
+    std::shared_ptr<serial::Serial> sensor_read_;
+    std::string line;
 
-    rclcpp::Subscription<custom_msg::msg::Sensors>::SharedPtr subscription_;
+    std::vector<Sensor> sensors;
+
+    std::vector<uint16_t> ids;
+
+    rclcpp::Publisher<custom_msg::msg::Sensors>::SharedPtr publisher_;
+    rclcpp::TimerBase::SharedPtr timer_;
 
     void setSerialPortLowLatency(const std::string& serial_port) {
         std::cout << "Setting low latency for " << WARN_COLOR << serial_port << CRESET << std::endl;
@@ -51,32 +70,91 @@ public:
     : Node("test_read_from_sensors")
     {
         rclcpp::Time stamp = this->now();
-std::stringstream ss;
-ss << stamp.seconds(); // << "." << stamp.nanoseconds();
-std::cout << ss.str() << std::endl;
 
-        set_epoch_command = "setepoch,"+ss; ///////////////////////////////////
+        double secs = stamp.seconds();
+        double msecs = stamp.nanoseconds() / 1000000;
+        // std::stringstream ss;
+        // ss << "setepoch," << secs << "," << msecs << "\r\n";
+        // std::string command = ss.str();
+
+
         setSerialPortLowLatency(serial_port_);
         sensor_read_ = std::make_shared<serial::Serial>(serial_port_, baudrate_, serial::Timeout::simpleTimeout(serial_timeout_));
 
-        sensor_read_->write("calibrate\r\n");
-        // sensor_read_->write(se)
         
-        subscription_ = this->create_subscription<custom_msg::msg::Sensors>(
-                "sensor_state", 1,
-                std::bind(&TestReadFromSensors::topic_callback, this, std::placeholders::_1)
-            );
+        sensor_read_->write("resume\n"); // se fai pausedata da putty
 
-        std::string line = (sensor_read_->readline());
-        if (line == "") {
-            std::cout << "empty " << std::endl;
-        } else if (line != "") {
-            std::cout << "line: " << line << std::endl;
-        }
+        sensor_read_->write("calibrate\n");
+        
+        publisher_ = this->create_publisher<custom_msg::msg::Sensors>("sensor_state", 1);
+        timer_ = this->create_wall_timer(
+            std::chrono::milliseconds(2),
+            std::bind(&TestReadFromSensors::publish_state, this)
+        );
+
+
+
+        int num_sensors = 5;
+        sensors.resize(num_sensors);
+
+        
+        
+        
+
     }
 
+
+
+
 private:
-    void topic_callback(const custom_msg::msg::Sensors::SharedPtr sen) {
+    void publish_state() {
+        
+        auto message = custom_msg::msg::Sensors();
+        message.header.stamp = rclcpp::Clock{}.now();
+
+        
+
+
+
+        line = (sensor_read_->readline());
+        if (line == "") {
+            // ERROR exception
+        } else if (line != "") {
+            std::cout << "line: " << line << std::endl;
+
+            std::string token; 
+            std::vector<std::string> tokens; 
+            char delimiter = ','; 
+            std::stringstream ss(line);
+
+            while (getline(ss, token, delimiter)) {
+                tokens.push_back(token); 
+            } 
+            tokens.pop_back(); // tolgo l'ultimo che è vuoto
+
+            message.ids.resize(sensors.size());
+
+            if (tokens[0] == "@") {
+                for (size_t i = 1; i < 6; i++)
+                {
+
+                    auto fx = tokens[-2+3*i];
+                    auto fy = tokens[-1+3*i];
+                    auto fz = tokens[0+3*i];
+                    message.ids[i] = i+1;
+                    message.values[i].x = fx; ///
+
+
+                } 
+            }
+        }
+
+
+        publisher_->publish(message);
+
+
+        
+
 
     }
 };
