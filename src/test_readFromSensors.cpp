@@ -58,7 +58,6 @@ public:
         write_on_serial("enabletime\r\n");
         write_on_serial("resume\r\n");
 
-
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(2),
             std::bind(&TestReadFromSensors::publish_state, this));
@@ -69,7 +68,7 @@ private:
     {
         sensor_read_->write(cmd);
         // std::cout << "str size: " << cmd.size() << "\n";
-        sensor_read_->waitByteTimes(10*cmd.size());
+        sensor_read_->waitByteTimes(100*cmd.size());
     }
 
     void publish_state()
