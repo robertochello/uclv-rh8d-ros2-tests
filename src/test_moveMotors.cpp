@@ -3,9 +3,11 @@
 #include <memory>
 
 #include "rclcpp/rclcpp.hpp"
-#include "custom_msg/msg/position.hpp"
+#include "uclv_seed_robotics_ros_interfaces/msg/motor_positions.hpp"
 
-#include "my_library/hand.hpp"
+#include "uclv_dynamixel_utils/hand.hpp"
+
+using namespace uclv::dynamixel_utils;
 
 
 
@@ -22,7 +24,7 @@ public:
     int baudrate_ = 1000000;
     float protocol_version_ = 2.0;
 
-    rclcpp::Subscription<custom_msg::msg::Position>::SharedPtr subscription_;
+    rclcpp::Subscription<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>::SharedPtr subscription_;
 
 
     TestMoveMotors()
@@ -34,14 +36,14 @@ public:
             throw std::runtime_error("Error: Hand not initialized");
         }
         
-        subscription_ = this->create_subscription<custom_msg::msg::Position>(
+        subscription_ = this->create_subscription<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>(
                 "/cmd/motor_position", 1,
                 std::bind(&TestMoveMotors::topic_callback, this, std::placeholders::_1)
             );
     }
 
 private:
-    void topic_callback(const custom_msg::msg::Position::SharedPtr pos) {
+    void topic_callback(const uclv_seed_robotics_ros_interfaces::msg::MotorPositions::SharedPtr pos) {
         try {
             
             for (size_t i = 0; i < pos->ids.size(); i++)

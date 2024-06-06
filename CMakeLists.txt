@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(uclv_rh8d_ros2_tests)
+project(uclv_seed_robotics_ros_tests)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -8,64 +8,64 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(my_library REQUIRED)
-find_package(custom_msg REQUIRED)
+find_package(uclv_dynamixel_utils REQUIRED)
+find_package(uclv_seed_robotics_ros_interfaces REQUIRED)
 find_package(serial REQUIRED)
 
 add_executable(test_moveMotors src/test_moveMotors.cpp)
 ament_target_dependencies(
   test_moveMotors
   "rclcpp"
-  "custom_msg"
-  "my_library"
+  "uclv_seed_robotics_ros_interfaces"
+  "uclv_dynamixel_utils"
 )
 
 add_executable(test_readMotorsPositions src/test_readMotorsPositions.cpp)
 ament_target_dependencies(
   test_readMotorsPositions
   "rclcpp"
-  "custom_msg"
-  "my_library"
+  "uclv_seed_robotics_ros_interfaces"
+  "uclv_dynamixel_utils"
 )
 
 add_executable(test_moveFingerMotor src/test_moveFingerMotor.cpp)
 ament_target_dependencies(
   test_moveFingerMotor
   "rclcpp"
-  "custom_msg"
-  "my_library"
+  "uclv_seed_robotics_ros_interfaces"
+  "uclv_dynamixel_utils"
 )
 
 add_executable(test_moveWristMotor src/test_moveWristMotor.cpp)
 ament_target_dependencies(
   test_moveWristMotor
   "rclcpp"
-  "custom_msg"
-  "my_library"
+  "uclv_seed_robotics_ros_interfaces"
+  "uclv_dynamixel_utils"
 )
 
 add_executable(test_readFingerMotorPosition src/test_readFingerMotorPosition.cpp)
 ament_target_dependencies(
   test_readFingerMotorPosition
   "rclcpp"
-  "custom_msg"
-  "my_library"
+  "uclv_seed_robotics_ros_interfaces"
+  "uclv_dynamixel_utils"
 )
 
 add_executable(test_readWristMotorPosition src/test_readWristMotorPosition.cpp)
 ament_target_dependencies(
   test_readWristMotorPosition
   "rclcpp"
-  "custom_msg"
-  "my_library"
+  "uclv_seed_robotics_ros_interfaces"
+  "uclv_dynamixel_utils"
 )
 
 add_executable(test_readFromSensors src/test_readFromSensors.cpp)
 ament_target_dependencies(
   test_readFromSensors
   "rclcpp"
-  "custom_msg"
-  "my_library"
+  "uclv_seed_robotics_ros_interfaces"
+  "uclv_dynamixel_utils"
   "serial"
 )
 

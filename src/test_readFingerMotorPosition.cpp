@@ -3,9 +3,11 @@
 #include <memory>
 
 #include "rclcpp/rclcpp.hpp"
-#include "custom_msg/msg/position.hpp"
+#include "uclv_seed_robotics_ros_interfaces/msg/motor_positions.hpp"
 
-#include "my_library/hand.hpp"
+#include "uclv_dynamixel_utils/hand.hpp"
+
+using namespace uclv::dynamixel_utils;
 
 
 
@@ -24,7 +26,7 @@ public:
     int millisecondsTimer_ = 2;
     std::vector<int64_t> motor_ids_ {34};
 
-    rclcpp::Publisher<custom_msg::msg::Position>::SharedPtr publisher_;
+    rclcpp::Publisher<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
 
     TestReadFingerMotorPosition()
@@ -36,7 +38,7 @@ public:
             throw std::runtime_error("Error: Hand not initialized");
         }
 
-        publisher_ = this->create_publisher<custom_msg::msg::Position>("motor_state", 1);
+        publisher_ = this->create_publisher<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>("motor_state", 1);
 
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(millisecondsTimer_),
@@ -74,7 +76,7 @@ void publish_state()
         } 
         
 
-        auto message = custom_msg::msg::Position();
+        auto message = uclv_seed_robotics_ros_interfaces::msg::MotorPositions();
         message.positions.resize(motor_pos.size());
         message.ids = motor_ids_uint8t_vec;
         

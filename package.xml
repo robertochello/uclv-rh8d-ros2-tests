@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>uclv_rh8d_ros2_tests</name>
+  <name>uclv_seed_robotics_ros_tests</name>
   <version>0.0.0</version>
   <description>This package include some tests for RH8D.</description>
   <maintainer email="roberto.chello@studenti.unicampania.it">Roberto Chello</maintainer>
-  <license>MIT</license>
+  <license>TODO</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>my_library</depend>
-  <depend>custom_msg</depend>
+  <depend>uclv_dynamixel_utils</depend>
+  <depend>uclv_seed_robotics_ros_interfaces</depend>
   <depend>serial</depend>
 
   <test_depend>ament_lint_auto</test_depend>
