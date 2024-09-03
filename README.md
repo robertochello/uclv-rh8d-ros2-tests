@@ -26,12 +26,12 @@ This repository contains some tests, in ROS2 and C++, for controlling the RH8D r
 1. Clone this repository into your ROS 2 workspace:
    ```bash
    cd /path/to/your/ros2/workspace/src
-   git clone https://github.com/robertochello/uclv-robot-hand-controller-ros2.git
+   git clone https://github.com/robertochello/uclv-rh8d-ros2-tests.git
    ```
 2. Build the package using `colcon`:
     ```bash
     cd /path/to/your/ros2/workspace
-    colcon build --packages-select uclv_robot_hand_controller
+    colcon build --packages-select uclv_rh8d_ros2_tests
     ```
 ## Dependencies
 
@@ -42,103 +42,25 @@ This repository contains some tests, in ROS2 and C++, for controlling the RH8D r
 ## Additional Dependencies
 
 This project requires additional dependencies from other repositories. Clone the following repositories into your ROS 2 workspace:
-- `custom_msg` - Custom ROS 2 Message package
-- `my_library` - External library for robotic hand control
-- `serial` - External library for reading from serial port
-
-1. ROS 2 Message package:
-   ```bash
+1. `uclv-dynamixel-utils` - Library for Dynamixel motor using Dynamixel Protocol 2.0
+   - ```bash
     cd /path/to/your/ros2/workspace/src
-    git clone https://github.com/robertochello/custom_msg.git
+    git clone https://github.com/robertochello/uclv-dynamixel-utils.git
     ```
-2. External library for robotic hand control:
-    ```bash
+2. `uclv-seed-robotics-ros` - Interfaces used
+   - ```bash
     cd /path/to/your/ros2/workspace/src
-    git clone https://github.com/robertochello/my_library.git
+    git clone https://github.com/robertochello/uclv-seed-robotics-ros.git
     ```
-3. External library for reading from serial port:
-    ```bash
+3. `serial` - External library for reading from serial port
+   - ```bash
     cd /path/to/your/ros2/workspace/src
     git clone https://github.com/robertochello/serial-ros2.git
     ```
+    
 
 ## Usage
 
-### Test Nodes
-
-#### Move Motors Test
-
-This test node (`test_moveMotors`) is designed to test the functionality of moving motors.
-
-1. Run test node:
-```bash
-    ros2 run uclv_robot_hand_controller test_moveMotors
-```
-2. Open another terminal and use `ros2 topic pub` to publish a message on the topic `/cmd/motor_position`. For example:
-   ```bash
-    ros2 topic pub /cmd/motor_position custom_msg/msg/Position "{ids: [36, 37], positions: [1000, 1000]}"
-   ```
-
-#### Read Motors Positions Test
-
-This test node (`test_readMotorsPositions`) is designed to test reading the positions of motors.
-1. Run test node:
-```bash
-    ros2 run uclv_robot_hand_controller test_readMotorsPositions
-```
-2. Open another terminal and use `ros2 topic echo` to see what is published on the `/motor_state` topic. For example:
-   ```bash
-    ros2 topic echo /motor_state
-   ```
-
-#### Move Finger Motor Test
-
-This test node (`test_moveFingerMotor`) is designed to test the functionality of moving a single wrist motor.
-1. Run test node:
-```bash
-    ros2 run uclv_robot_hand_controller test_moveFingerMotor
-```
-2. Open another terminal and use `ros2 topic pub` to publish a message on the topic `/cmd/motor_position`. For example:
-   ```bash
-    ros2 topic pub /cmd/motor_position custom_msg/msg/Position "{ids: [36], positions: [1000]}"
-   ```
-
-
-#### Move Wrist Motor Test
-
-This test node (`test_moveWristMotor`) is designed to test the functionality of moving a single wrist motor.
-1. Run test node:
-```bash
-    ros2 run uclv_robot_hand_controller test_moveWristMotor
-```
-2. Open another terminal and use `ros2 topic pub` to publish a message on the topic `/cmd/motor_position`. For example:
-   ```bash
-    ros2 topic pub /cmd/motor_position custom_msg/msg/Position "{ids: [31], positions: [1000]}"
-   ```
-
-#### Read Finger Motor Positions Test
-
-This test node (`test_readFingerMotorPosition`) is designed to test reading the positions of a single finger motor.
-1. Run test node:
-```bash
-    ros2 run uclv_robot_hand_controller test_readFingerMotorPosition
-```
-2. Open another terminal and use `ros2 topic echo` to see what is published on the `/motor_state` topic. For example:
-   ```bash
-    ros2 topic echo /motor_state
-   ```
-
-#### Read Wrist Motor Positions Test
-
-This test node (`test_readWristMotorPosition`) is designed to test reading the positions of a single wrist motor.
-1. Run test node:
-```bash
-    ros2 run uclv_robot_hand_controller test_readWristMotorPosition
-```
-2. Open another terminal and use `ros2 topic echo` to see what is published on the `/motor_state` topic. For example:
-   ```bash
-    ros2 topic echo /motor_state
-   ```
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
