@@ -109,7 +109,7 @@ public:
     bool use_topic_ = false; // Set to true to use topic input
     bool use_sine_wave_ = false; // Set to true to use sine function
 
-    uint8_t motor_id_ = 1; // Motor ID used in both modes
+    uint8_t motor_id_ = 36; // Motor ID used in both modes
 
     // Parameters for sine function
     float amplitude_ = 1000.0; // Amplitude of the sine wave
@@ -117,7 +117,7 @@ public:
     float time_ = 0.0;        // Initial time
 
     // Hardcoded position for the motor
-    float hardcoded_position_ = 512.0; // Example of hardcoded position
+    float hardcoded_position_ = 1000.0; // Example of hardcoded position
 
     TestMoveFingerMotor()
     : Node("test_move_finger_motor")
