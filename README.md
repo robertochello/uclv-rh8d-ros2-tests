@@ -43,17 +43,17 @@ This repository contains some tests, in ROS2 and C++, for controlling the RH8D r
 
 This project requires additional dependencies from other repositories. Clone the following repositories into your ROS 2 workspace:
 1. `uclv-dynamixel-utils` - Library for Dynamixel motor using Dynamixel Protocol 2.0
-   - ```bash
+    ```bash
     cd /path/to/your/ros2/workspace/src
     git clone https://github.com/robertochello/uclv-dynamixel-utils.git
     ```
 2. `uclv-seed-robotics-ros` - Interfaces used
-   - ```bash
+    ```bash
     cd /path/to/your/ros2/workspace/src
     git clone https://github.com/robertochello/uclv-seed-robotics-ros.git
     ```
 3. `serial` - External library for reading from serial port
-   - ```bash
+    ```bash
     cd /path/to/your/ros2/workspace/src
     git clone https://github.com/robertochello/serial-ros2.git
     ```
