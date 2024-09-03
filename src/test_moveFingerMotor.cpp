@@ -112,7 +112,7 @@ public:
     uint8_t motor_id_ = 1; // Motor ID used in both modes
 
     // Parameters for sine function
-    float amplitude_ = 512.0; // Amplitude of the sine wave
+    float amplitude_ = 1000.0; // Amplitude of the sine wave
     float frequency_ = 1.0;   // Frequency of the sine wave
     float time_ = 0.0;        // Initial time
 
