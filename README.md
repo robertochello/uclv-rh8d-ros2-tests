@@ -60,6 +60,7 @@ This project requires additional dependencies from other repositories. Clone the
     
 
 ## Usage
+Read [test_moveFingerMotor](./README/README_test_moveFingerMotor.md)
 
 ## License
 
