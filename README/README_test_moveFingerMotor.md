@@ -30,7 +30,7 @@ When the sine wave mode is enabled (`use_sine_wave_` set to `true`), the motor's
 - **`serial_port_`**: The serial port to which the Dynamixel motor is connected (default: `/dev/ttyUSB0`).
 - **`baudrate_`**: The baud rate for communication (default: `1000000`).
 - **`protocol_version_`**: The protocol version of the Dynamixel SDK (default: `2.0`).
-- **`motor_id_`**: The ID of the motor to be controlled (default: `1`).
+- **`motor_id_`**: The ID of the motor to be controlled (default: `36`).
 - **`amplitude_`**: The amplitude of the sine wave for motion control (default: `1000.0`).
 - **`frequency_`**: The frequency of the sine wave for motion control (default: `1.0`).
 
