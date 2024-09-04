@@ -24,7 +24,7 @@ public:
     int baudrate_ = 1000000;
     float protocol_version_ = 2.0;
 
-    std::vector<int64_t> motor_ids_{36};
+    std::vector<uint8_t> motor_ids_{36}; // Changed to vector of uint8_t for motor IDs
     int millisecondsTimer_ = 2;
 
     rclcpp::Subscription<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>::SharedPtr subscription_;
@@ -35,8 +35,6 @@ public:
 
     bool use_topic_ = true;      // Set to true to use topic input
     bool use_sine_wave_ = false; // Set to true to use sine function
-
-    uint8_t motor_id_ = 36; // Motor ID used in both modes (hardcoded - topic)
 
     // Parameters for sine function
     float amplitude_ = 1000.0; // Amplitude of the sine wave
@@ -71,14 +69,18 @@ public:
         // If not using the topic, choose between sine function or hardcoded values
         if (!use_topic_)
         {
-            hand_->addFingerMotor(motor_id_); // Add motor at the start
+            for (const auto& id : motor_ids_)
+            {
+                hand_->addFingerMotor(id); // Add motor at the start
+            }
+
             if (use_sine_wave_)
             {
                 start_sine_wave_timer(); // Use sine function
             }
             else
             {
-                move_motor_with_hardcoded_values(); // Use hardcoded values
+                move_motors_with_hardcoded_values(); // Use hardcoded values
             }
         }
     }
@@ -92,8 +94,11 @@ private:
             {
                 if (!pos->ids.empty() && !pos->positions.empty())
                 {
-                    hand_->addFingerMotor(pos->ids[0]);
-                    hand_->moveFingerMotor(pos->ids[0], pos->positions[0]);
+                    for (size_t i = 0; i < pos->ids.size(); i++)
+                    {
+                        hand_->addFingerMotor(pos->ids[i]);
+                        hand_->moveFingerMotor(pos->ids[i], pos->positions[i]);
+                    }
                 }
                 else
                 {
@@ -107,12 +112,15 @@ private:
         }
     }
 
-    void move_motor_with_hardcoded_values()
+    void move_motors_with_hardcoded_values()
     {
         try
         {
-            // Use the hardcoded position to move the motor
-            hand_->moveFingerMotor(motor_id_, hardcoded_position_);
+            // Use the hardcoded position to move each motor
+            for (const auto& id : motor_ids_)
+            {
+                hand_->moveFingerMotor(id, hardcoded_position_);
+            }
         }
         catch (...)
         {
@@ -135,8 +143,11 @@ private:
 
         try
         {
-            // Use the same motor with the common ID
-            hand_->moveFingerMotor(motor_id_, position);
+            // Move each motor with the calculated sine wave position
+            for (const auto& id : motor_ids_)
+            {
+                hand_->moveFingerMotor(id, position);
+            }
         }
         catch (...)
         {
@@ -147,17 +158,11 @@ private:
     void publish_state()
     {
         rclcpp::Time now = this->get_clock()->now();
-        std::vector<uint8_t> motor_ids_uint8t_vec;
-        motor_ids_uint8t_vec.reserve(motor_ids_.size());
-        for (size_t i = 0; i < motor_ids_.size(); i++)
-        {
-            motor_ids_uint8t_vec.push_back(static_cast<uint8_t>(motor_ids_[i]));
-        }
 
         std::vector<uint32_t> motor_pos;
         try
         {
-            motor_pos = hand_->readMotorsPositions(motor_ids_uint8t_vec);
+            motor_pos = hand_->readMotorsPositions(motor_ids_);
         }
         catch (...)
         {
@@ -168,7 +173,7 @@ private:
         auto message = uclv_seed_robotics_ros_interfaces::msg::MotorPositions();
         message.header.stamp = now;
         message.positions.resize(motor_pos.size());
-        message.ids = motor_ids_uint8t_vec;
+        message.ids = motor_ids_;
 
         for (size_t i = 0; i < motor_pos.size(); i++)
         {
