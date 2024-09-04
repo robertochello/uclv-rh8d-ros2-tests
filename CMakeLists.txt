@@ -12,6 +12,13 @@ find_package(uclv_dynamixel_utils REQUIRED)
 find_package(uclv_seed_robotics_ros_interfaces REQUIRED)
 find_package(serial REQUIRED)
 
+add_executable(sin_node src/sin_node.cpp)
+ament_target_dependencies(
+  sin_node
+  "rclcpp"
+  "geometry_msgs"
+)
+
 add_executable(test_moveMotors src/test_moveMotors.cpp)
 ament_target_dependencies(
   test_moveMotors
@@ -78,6 +85,7 @@ install(TARGETS
       test_readFingerMotorPosition
       test_readWristMotorPosition
       test_readFromSensors
+      sin_node
       DESTINATION 
         lib/${PROJECT_NAME})
 
