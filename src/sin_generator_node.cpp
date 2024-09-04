@@ -9,11 +9,11 @@
 
 using namespace std::chrono_literals; // Allows for easy time suffixes (e.g., 100ms)
 
-class SinGenerator : public rclcpp::Node
+class SinGeneratorNode : public rclcpp::Node
 {
 public:
     SinGenerator()
-        : Node("sing_generator"), t0_(this->now()) // Initialize t0_ with the current time
+        : Node("sing_generator_node"), t0_(this->now()) // Initialize t0_ with the current time
     {
         publisher_ = this->create_publisher<geometry_msgs::msg::PointStamped>("sin_topic", 10);
 
