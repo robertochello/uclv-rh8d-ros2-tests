@@ -12,23 +12,23 @@ using namespace std::chrono_literals; // Allows for easy time suffixes (e.g., 10
 class SinGeneratorNode : public rclcpp::Node
 {
 public:
-    SinGenerator()
+    SinGeneratorNode()
         : Node("sing_generator_node"), t0_(this->now()) // Initialize t0_ with the current time
     {
         publisher_ = this->create_publisher<geometry_msgs::msg::PointStamped>("sin_topic", 10);
 
         // Timer setup with a callback frequency of 10Hz (100ms)
         timer_ = this->create_wall_timer(
-            100ms, std::bind(&MinimalPublisher::timer_callback, this));
+            1ms, std::bind(&SinGeneratorNode::timer_callback, this));
 
-        RCLCPP_INFO(this->get_logger(), "MinimalPublisher node has been started.");
+        RCLCPP_INFO(this->get_logger(), "Sin generator has been started.");
     }
 
 private:
 
     // Sine wave parameters
     float amplitude_ = 1000.0;  // Amplitude of the sine wave
-    float frequency_ = 1;       // Frequency of the sine wave (Hz)
+    float frequency_ = 0.5;       // Frequency of the sine wave (Hz)
     float offset_ = 2000.0;     // Offset of the sine wave
 
     rclcpp::TimerBase::SharedPtr timer_; 
@@ -60,15 +60,18 @@ private:
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-
-    auto node = std::make_shared<MinimalPublisher>();
-
-    // Ensure the logger is set to DEBUG level to see the debug messages
-    rclcpp::Logger logger = rclcpp::get_logger("rclcpp");
-    rclcpp::Logger::Level log_level = rclcpp::Logger::Level::Debug;
-    rclcpp::set_logger_level(logger.get_name(), log_level);
-
-    rclcpp::spin(node);
+    try
+    {
+        auto sin_generator_node = std::make_shared<SinGeneratorNode>();
+        rclcpp::spin(sin_generator_node);
+    }
+    catch (const std::exception &e)
+    {
+        RCLCPP_FATAL(rclcpp::get_logger("rclcpp"), "Exception caught: %s", e.what());
+        rclcpp::shutdown();
+        return 1;
+    }
     rclcpp::shutdown();
     return 0;
 }
+

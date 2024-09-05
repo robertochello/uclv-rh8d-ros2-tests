@@ -41,6 +41,7 @@ ament_target_dependencies(
   "rclcpp"
   "uclv_seed_robotics_ros_interfaces"
   "uclv_dynamixel_utils"
+  "geometry_msgs"
 )
 
 add_executable(test_moveWristMotor src/test_moveWristMotor.cpp)
@@ -85,9 +86,16 @@ install(TARGETS
       test_readFingerMotorPosition
       test_readWristMotorPosition
       test_readFromSensors
-      sin_node
+      sin_generator_node
       DESTINATION 
         lib/${PROJECT_NAME})
+
+
+install(DIRECTORY
+  launch
+  DESTINATION
+    share/${PROJECT_NAME}/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

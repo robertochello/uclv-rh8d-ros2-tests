@@ -6,6 +6,8 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/header.hpp"
+#include "geometry_msgs/msg/point_stamped.hpp"
+
 #include "uclv_seed_robotics_ros_interfaces/msg/motor_positions.hpp"
 
 #include "uclv_dynamixel_utils/hand.hpp"
@@ -24,10 +26,11 @@ public:
     int baudrate_ = 1000000;
     float protocol_version_ = 2.0;
 
-    std::vector<uint8_t> motor_ids_{36}; // Changed to vector of uint8_t for motor IDs
-    int millisecondsTimer_ = 2;
+    std::vector<uint8_t> motor_ids_{36, 37, 38}; // Changed to vector of uint8_t for motor IDs
+    // std::vector<uint8_t> motor_ids_{36, 37}; // Changed to vector of uint8_t for motor IDs
+    int millisecondsTimer_ = 1;
 
-    rclcpp::Subscription<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>::SharedPtr subscription_;
+    rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr subscription_;
 
     rclcpp::Publisher<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;    // Timer for publisher
@@ -38,7 +41,7 @@ public:
 
     // Parameters for sine function
     float amplitude_ = 1000.0; // Amplitude of the sine wave
-    float frequency_ = 1.0;    // Frequency of the sine wave
+    float frequency_ = 0.5;    // Frequency of the sine wave
     float offset_ = 2000.0;    // Offset of the sine wave
     float time_ = 0.0;         // Initial time
 
@@ -56,8 +59,8 @@ public:
         }
 
         // Subscription to topic
-        subscription_ = this->create_subscription<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>(
-            "/cmd/motor_position", 1,
+        subscription_ = this->create_subscription<geometry_msgs::msg::PointStamped>(
+            "sin_topic", 1,
             std::bind(&TestMoveFingerMotor::topic_callback, this, std::placeholders::_1));
 
         publisher_ = this->create_publisher<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>("motor_state", 1);
@@ -86,24 +89,25 @@ public:
     }
 
 private:
-    void topic_callback(const uclv_seed_robotics_ros_interfaces::msg::MotorPositions::SharedPtr pos)
+    void topic_callback(const geometry_msgs::msg::PointStamped::SharedPtr pos)
     {
         if (use_topic_)
         { // Execute only if the flag is set to use the topic
+
             try
             {
-                if (!pos->ids.empty() && !pos->positions.empty())
-                {
-                    for (size_t i = 0; i < pos->ids.size(); i++)
+                // if (!pos->point.z)
+                // {
+                    for (size_t i = 0; i < motor_ids_.size(); i++)
                     {
-                        hand_->addFingerMotor(pos->ids[i]);
-                        hand_->moveFingerMotor(pos->ids[i], pos->positions[i]);
+                        hand_->addFingerMotor(motor_ids_[i]);
+                        hand_->moveFingerMotor(motor_ids_[i], pos->point.z);
                     }
-                }
-                else
-                {
-                    RCLCPP_WARN(this->get_logger(), "Received message is empty.");
-                }
+                // }
+                // else
+                // {
+                //     RCLCPP_WARN(this->get_logger(), "Received message is empty.");
+                // }
             }
             catch (...)
             {
