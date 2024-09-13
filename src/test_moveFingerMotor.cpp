@@ -26,8 +26,9 @@ public:
     int baudrate_ = 1000000;
     float protocol_version_ = 2.0;
 
-    std::vector<uint8_t> motor_ids_{36, 37, 38}; // Changed to vector of uint8_t for motor IDs
-    // std::vector<uint8_t> motor_ids_{36, 37}; // Changed to vector of uint8_t for motor IDs
+    std::vector<int64_t> motor_ids_; // List of motor IDs managed by the controller
+
+    
     int millisecondsTimer_ = 1;
 
     rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr subscription_;
@@ -49,7 +50,8 @@ public:
     float hardcoded_position_ = 100.0; // Example of hardcoded position
 
     TestMoveFingerMotor()
-        : Node("test_move_finger_motor")
+        : Node("test_move_finger_motor"),
+        motor_ids_(this->declare_parameter<std::vector<int64_t>>("motor_ids", std::vector<int64_t>()))
     {
         hand_ = std::make_shared<Hand>(serial_port_, baudrate_, protocol_version_);
         hand_->setSerialPortLowLatency(serial_port_);
@@ -161,12 +163,17 @@ private:
 
     void publish_state()
     {
-        rclcpp::Time now = this->get_clock()->now();
+        std::vector<uint8_t> motor_ids_uint8t_vec;
+        motor_ids_uint8t_vec.reserve(motor_ids_.size());
+        for (size_t i = 0; i < motor_ids_.size(); i++)
+        {
+            motor_ids_uint8t_vec.push_back(static_cast<uint8_t>(motor_ids_[i]));
+        }
 
         std::vector<uint32_t> motor_pos;
         try
         {
-            motor_pos = hand_->readMotorsPositions(motor_ids_);
+            motor_pos = hand_->readMotorsPositions(motor_ids_uint8t_vec);
         }
         catch (...)
         {
@@ -175,9 +182,8 @@ private:
         }
 
         auto message = uclv_seed_robotics_ros_interfaces::msg::MotorPositions();
-        message.header.stamp = now;
         message.positions.resize(motor_pos.size());
-        message.ids = motor_ids_;
+        message.ids = motor_ids_uint8t_vec;
 
         for (size_t i = 0; i < motor_pos.size(); i++)
         {

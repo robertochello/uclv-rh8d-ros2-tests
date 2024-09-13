@@ -13,7 +13,11 @@ class SinGeneratorNode : public rclcpp::Node
 {
 public:
     SinGeneratorNode()
-        : Node("sing_generator_node"), t0_(this->now()) // Initialize t0_ with the current time
+        : Node("sing_generator_node"), 
+        t0_(this->now()), // Initialize t0_ with the current time
+        amplitude_(this->declare_parameter<float>("amplitude", 2000.0)),
+        frequency_(this->declare_parameter<float>("frequency", 0.5)),
+        offset_(this->declare_parameter<float>("offset", 2000.0))
     {
         publisher_ = this->create_publisher<geometry_msgs::msg::PointStamped>("sin_topic", 10);
 
@@ -27,9 +31,9 @@ public:
 private:
 
     // Sine wave parameters
-    float amplitude_ = 1000.0;  // Amplitude of the sine wave
-    float frequency_ = 0.5;       // Frequency of the sine wave (Hz)
-    float offset_ = 2000.0;     // Offset of the sine wave
+    float amplitude_;  // Amplitude of the sine wave
+    float frequency_;       // Frequency of the sine wave (Hz)
+    float offset_;     // Offset of the sine wave
 
     rclcpp::TimerBase::SharedPtr timer_; 
     rclcpp::Publisher<geometry_msgs::msg::PointStamped>::SharedPtr publisher_;
