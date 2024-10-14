@@ -65,7 +65,7 @@ public:
             "sin_topic", 1,
             std::bind(&TestMoveFingerMotor::topic_callback, this, std::placeholders::_1));
 
-        publisher_ = this->create_publisher<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>("motor_state", 1);
+        publisher_ = this->create_publisher<uclv_seed_robotics_ros_interfaces::msg::MotorPositions>("/state/motors", 1);
 
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(millisecondsTimer_),
@@ -182,6 +182,7 @@ private:
         }
 
         auto message = uclv_seed_robotics_ros_interfaces::msg::MotorPositions();
+        message.header.stamp = rclcpp::Clock{}.now();
         message.positions.resize(motor_pos.size());
         message.ids = motor_ids_uint8t_vec;
 

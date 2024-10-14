@@ -10,11 +10,9 @@ def generate_launch_description():
             executable='test_moveFingerMotor',
             name='moveFingerMotor',
             parameters=[
-                {"motor_ids": [34]}
-                # {"motor_ids": [34,35]}
-                # {"motor_ids": [34,35,36]}
-                # {"motor_ids": [34,35,36,37]}
-                # {"motor_ids": [34,35,36,37,38]}
+                # {"motor_ids": [35]}
+                # {"motor_ids": [35,36]}
+                {"motor_ids": [35,36,37,38]}
             ]
         ),
         Node(
